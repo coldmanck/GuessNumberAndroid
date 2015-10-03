@@ -6,4 +6,6 @@
     <string name="submit_message">Submit</string>
     <string name="clear_message">Clear</string>
     <string name="answer_message">Show Answer</string>
+    <string name="new_game">New Game</string>
+    <string name="okay">Okay</string>
 </resources>

@@ -1,9 +1,8 @@
 package tw.edu.nctu.coldman519.guessnumberandroid;
 
-import android.content.Intent;
+import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -12,10 +11,11 @@ import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.support.v4.app.DialogFragment;
+
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -56,20 +56,63 @@ public class MainActivity extends AppCompatActivity {
                 EditText inputEditText = (EditText) findViewById(R.id.edit_text);
                 String message = inputEditText.getText().toString();
 
-                TextView resultTextView = (TextView) findViewById(R.id.result);
+                int[] aAndB;
+                final TextView resultTextView = (TextView) findViewById(R.id.result);
 
-                if(history.contains(message))
+                boolean isInputRight = true;
+                for(int i = 0; i < digit; i++) {
+                    int charNumber = (int) message.charAt(i);
+                    if( charNumber < 48 || charNumber > 57) {
+                        isInputRight = false;
+                        break;
+                    }
+                }
+
+                if(message.length() != digit || !isInputRight){
+                    new AlertDialog.Builder(tw.edu.nctu.coldman519.guessnumberandroid.MainActivity.this)
+                            .setTitle("Error")
+                            .setMessage("Input 4 not repeat number!")
+                            .setPositiveButton(getString(R.string.okay), new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    // do nothing
+                                }
+                            })
+                            .setIcon(android.R.drawable.ic_dialog_alert)
+                            .show();
+                }
+                else if(history.contains(message))
                     resultTextView.append("You have input " + message + " before!!\n");
                 else {
-                    int[] aAndB = guessGame.startGame(4, message);
+                    aAndB = guessGame.startGame(4, message);
                     history.add(message);
                     resultTextView.append(aAndB[0] + " A " + aAndB[1] + " B\n");
-                    if(aAndB[0] == 4)
-                        
+
+                    if(aAndB[0] == 4){
+                        new AlertDialog.Builder(tw.edu.nctu.coldman519.guessnumberandroid.MainActivity.this)
+                                .setTitle("Congratulation!")
+                                .setMessage("Press to start a new game")
+                                .setPositiveButton(getString(R.string.new_game), new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        guessGame.setNumber(digit);
+                                        history.clear();
+                                        resultTextView.setText("");
+                                    }
+                                })
+                                .setIcon(android.R.drawable.ic_dialog_alert)
+                                .show();
+                    }
                 }
+
+                inputEditText.setText("");
             }
         });
     }
+
+//    .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+//        public void onClick(DialogInterface dialog, int which) {
+//            // do nothing
+//        }
+//    })
 
     public void addListenerOnClearButton() {
         clearButton = (Button) findViewById(R.id.clear_button);
