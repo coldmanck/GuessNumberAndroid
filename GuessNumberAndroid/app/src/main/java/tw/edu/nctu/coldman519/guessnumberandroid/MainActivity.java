@@ -174,6 +174,7 @@ public class MainActivity extends AppCompatActivity {
 
     // quick sort implementation
     public ArrayList<Integer> sortAnswer(ArrayList<Integer> intAnswer){
+        // no need to sort
         if (intAnswer.size() < 2)
             return intAnswer;
 
@@ -183,9 +184,11 @@ public class MainActivity extends AppCompatActivity {
         // middle pivot
         int pivot = intAnswer.get(intAnswer.size() / 2);
         intAnswer.remove(intAnswer.size() / 2);
+
         ArrayList<Integer> less = new ArrayList<Integer>();
         ArrayList<Integer> greater = new ArrayList<Integer>();
         ArrayList<Integer> result = new ArrayList<Integer>();
+
         for (Integer n : intAnswer)
         {
             if (n > pivot)
