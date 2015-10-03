@@ -17,8 +17,23 @@ public class GuessGame {
         answer = new int[digit];
 
         Random rand = new Random();
-        for(int i = 0; i < digit; i++)
-            answer[i] = rand.nextInt(10);
+        for(int i = 0; i < digit; i++) {
+            while(true) {
+                boolean isSpecial = true;
+                int temp = rand.nextInt(10);
+
+                for (int j = 0; j < i; j++)
+                    if (temp == answer[j]) {
+                        isSpecial = false;
+                        break;
+                    }
+
+                if(isSpecial) {
+                    answer[i] = temp;
+                    break;
+                }
+            }
+        }
     }
 
     public int[] startGame(int d, String guess){
