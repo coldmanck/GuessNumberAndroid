@@ -13,10 +13,16 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity {
 
-    Button button;
-    GuessGame guessGame = new GuessGame();
+    private Button submitButton, clearButton, answerButton;
+    private GuessGame guessGame = new GuessGame();
+    private ArrayList<String> history = new ArrayList<>();
+    private final int digit = 4;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,8 +31,11 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        guessGame.setNumber(4);
-        addListenerOnButton();
+        guessGame.setNumber(digit);
+
+        addListenerOnSubmitButton();
+        addListenerOnClearButton();
+        addListenerOnAnswerButton();
 
 //        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 //        fab.setOnClickListener(new View.OnClickListener() {
@@ -38,23 +47,53 @@ public class MainActivity extends AppCompatActivity {
 //        });
     }
 
-    public void addListenerOnButton() {
-        button = (Button) findViewById(R.id.submit_button);
-        button.setOnClickListener(new View.OnClickListener() {
+    public void addListenerOnSubmitButton() {
+        submitButton = (Button) findViewById(R.id.submit_button);
+        submitButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
                 EditText inputEditText = (EditText) findViewById(R.id.edit_text);
                 String message = inputEditText.getText().toString();
 
-                int[] aAndB = guessGame.startGame(4, message);
                 TextView resultTextView = (TextView) findViewById(R.id.result);
-                resultTextView.append(aAndB[0] + " A " + aAndB[1] + " B\n");
+
+                if(history.contains(message))
+                    resultTextView.append("You have input " + message + " before!!\n");
+                else {
+                    int[] aAndB = guessGame.startGame(4, message);
+                    history.add(message);
+                    resultTextView.append(aAndB[0] + " A " + aAndB[1] + " B\n");
+                    if(aAndB[0] == 4)
+                        
+                }
             }
         });
     }
 
+    public void addListenerOnClearButton() {
+        clearButton = (Button) findViewById(R.id.clear_button);
+        clearButton.setOnClickListener(new View.OnClickListener() {
 
+            @Override
+            public void onClick(View view) {
+                TextView resultTextView = (TextView) findViewById(R.id.result);
+                resultTextView.setText("");
+            }
+        });
+    }
+
+    public void addListenerOnAnswerButton() {
+        answerButton = (Button) findViewById(R.id.answer_button);
+        answerButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                TextView resultTextView = (TextView) findViewById(R.id.result);
+                resultTextView.append("Answer: " + Arrays.toString(guessGame.getAnswer()) + "\n");
+            }
+        });
+    }
 
 
 

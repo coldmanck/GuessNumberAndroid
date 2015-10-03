@@ -30,10 +30,11 @@ public class GuessGame {
         for(int i = 0; i < digit; i++){
             if(answer[i] == guessNumber[i])
                 a++;
-            for(int j = 0; j < digit; j++){
-                if(answer[i] == guessNumber[j] && answer[i] != guessNumber[i])
-                    b++;
-            }
+            else
+                for(int j = 0; j < digit; j++){
+                    if(answer[i] == guessNumber[j])
+                        b++;
+                }
         }
 
         returnValue[0] = a;
@@ -50,5 +51,9 @@ public class GuessGame {
             guess_temp[i] = Integer.valueOf(guess.substring(i, i+1));
 
         return guess_temp;
+    }
+
+    public int[] getAnswer(){
+        return answer;
     }
 }
