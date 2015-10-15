@@ -6,4 +6,4 @@ Written in Android/Java, *GuessNumberAndroid* is the homework\#1 of lecture *Sof
 System will randomly gernerating four unrepeated numbers (0-9). Not until player enter the correct answer will the game end. Error handling is used to check if input is in correct format (**unrepeated four digits**). In addition, some function required in homework are added.
 
 ## License
-It is released under MIT license. See the [LICENSE.md[(https://github.com/coldmanck/GuessNumberAndroid/blob/master/LICENSE.md) file to see license rights and limitation).
+It is released under MIT license. See the [LICENSE.md](https://github.com/coldmanck/GuessNumberAndroid/blob/master/LICENSE.md) file to see license rights and limitation).
